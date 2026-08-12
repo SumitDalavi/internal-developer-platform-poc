@@ -1,0 +1,74 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: nodejs-microservice-template
+  title: Node.js Microservice
+  description: Creates a Node.js microservice complete with a Dockerfile and ArgoCD GitOps manifests.
+  tags:
+    - recommended
+    - nodejs
+    - gitops
+spec:
+  owner: user:platform-team
+  type: service
+
+  parameters:
+    - title: Service Details
+      required:
+        - name
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the service
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        description:
+          title: Description
+          type: string
+          description: A brief description of the service
+    - title: Repository Details
+      required:
+        - owner
+      properties:
+        owner:
+          title: Owner
+          type: string
+          description: The GitHub username or organization
+          default: platform-team
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: github.com?repo=${{ parameters.name }}&owner=${{ parameters.owner }}
+
+    - id: register
+      name: Register in Backstage Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: GitHub Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in Backstage
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

@@ -1,0 +1,25 @@
+app:
+  title: Enterprise IDP Developer Portal
+  baseUrl: http://localhost:3000
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+  locations:
+    # Local Golden Path Templates
+    - type: file
+      target: ../../golden-path-templates/nodejs-microservice/template.yaml
+      rules:
+        - allow: [Template]
