@@ -52,6 +52,107 @@ Many teams just use Jenkins pipelines and call it "DevOps." This project demonst
 └── README.md
 ```
 
+
+## ðŸ“‹ Prerequisites
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| [kubectl](https://kubernetes.io/docs/tasks/tools/) | >= 1.28 | Kubernetes CLI |
+| [kind](https://kind.sigs.k8s.io/) or [minikube](https://minikube.sigs.k8s.io/) | Latest | Local K8s cluster |
+| [Terraform](https://www.terraform.io/) | >= 1.5 | Infrastructure provisioning |
+| [Argo CD CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/) | >= 2.9 | GitOps CLI |
+| [Docker](https://www.docker.com/) | >= 24.x | Container runtime |
+| [Node.js](https://nodejs.org/) | >= 18.x | Backstage portal |
+
+## ðŸš€ Step-by-Step Setup
+
+### Option A: Local Cluster (kind)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/SumitDalavi/internal-developer-platform-poc.git
+cd internal-developer-platform-poc
+
+# 2. Create a local cluster
+kind create cluster --name idp-platform
+
+# 3. Provision infrastructure with Terraform
+cd terraform/
+terraform init
+terraform plan
+terraform apply -auto-approve
+cd ..
+
+# 4. Install Argo CD for GitOps
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=120s
+
+# 5. Apply Argo CD project and root application
+kubectl apply -f argocd-gitops/app-project.yaml
+kubectl apply -f argocd-gitops/root-application.yaml
+
+# 6. Apply Kyverno policies
+kubectl apply -f templates/kyverno/require-labels.yaml
+
+# 7. Apply CI pipeline template
+# The GitHub Actions template is at templates/github-actions/ci-pipeline.yaml
+```
+
+### Option B: Existing Cloud Cluster
+
+```bash
+kubectl cluster-info
+# Follow steps 3-7 from Option A
+```
+
+## ðŸ§ª Usage & Demo â€” Golden Path Templates
+
+### Step 1: Scaffold a new microservice from the Golden Path
+```bash
+# Review the template
+cat golden-path-templates/nodejs-microservice/template.yaml
+
+# The template generates:
+# - Dockerfile
+# - K8s deployment manifests
+# - catalog-info.yaml (Backstage integration)
+# - package.json with standard scripts
+```
+
+### Step 2: Deploy via Argo CD
+```bash
+# List all managed applications
+argocd app list
+
+# Sync the root application
+argocd app sync root-app
+```
+
+### Step 3: Access the Backstage Portal
+```bash
+# Configure Backstage
+cat backstage-portal/app-config.yaml
+
+# For full Backstage setup, follow the official docs:
+# https://backstage.io/docs/getting-started/
+```
+
+## âœ… Verification
+
+| Check | Command | Expected |
+|-------|---------|----------|
+| Cluster ready | `kubectl get nodes` | Nodes in Ready state |
+| Terraform applied | `terraform output` | Resource outputs |
+| Argo CD running | `kubectl get pods -n argocd` | All pods running |
+| Policies active | `kubectl get clusterpolicies` | require-labels policy |
+| Templates available | `ls golden-path-templates/` | Template directories |
+
+```bash
+# Cleanup
+kind delete cluster --name idp-platform
+```
+
 ## 👨‍💻 Author
 
 *Built to demonstrate Platform Engineering and Developer Self-Service.*
