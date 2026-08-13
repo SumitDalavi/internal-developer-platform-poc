@@ -1,0 +1,15 @@
+do-not-commit/
+node_modules/
+dist/
+build/
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.pem
+*.key
