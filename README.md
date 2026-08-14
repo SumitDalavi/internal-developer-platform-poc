@@ -53,7 +53,7 @@ Many teams just use Jenkins pipelines and call it "DevOps." This project demonst
 ```
 
 
-## ðŸ“‹ Prerequisites
+## 📋 Prerequisites
 
 | Tool | Version | Purpose |
 |------|---------|---------|
@@ -64,7 +64,7 @@ Many teams just use Jenkins pipelines and call it "DevOps." This project demonst
 | [Docker](https://www.docker.com/) | >= 24.x | Container runtime |
 | [Node.js](https://nodejs.org/) | >= 18.x | Backstage portal |
 
-## ðŸš€ Step-by-Step Setup
+## 🚀 Step-by-Step Setup
 
 ### Option A: Local Cluster (kind)
 
@@ -106,7 +106,7 @@ kubectl cluster-info
 # Follow steps 3-7 from Option A
 ```
 
-## ðŸ§ª Usage & Demo â€” Golden Path Templates
+## 🧪 Usage & Demo â€” Golden Path Templates
 
 ### Step 1: Scaffold a new microservice from the Golden Path
 ```bash
@@ -138,7 +138,7 @@ cat backstage-portal/app-config.yaml
 # https://backstage.io/docs/getting-started/
 ```
 
-## âœ… Verification
+## ✅ Verification
 
 | Check | Command | Expected |
 |-------|---------|----------|
@@ -155,4 +155,9 @@ kind delete cluster --name idp-platform
 
 ## 👨‍💻 Author
 
-*Built to demonstrate Platform Engineering and Developer Self-Service.*
+**Sumit Dalavi** — Senior DevSecOps / Platform Engineer
+[GitHub](https://github.com/SumitDalavi) | [LinkedIn](https://in.linkedin.com/in/sumit-dalavi-762838129)
+
+---
+
+*Built with a focus on production-grade patterns, not toy demos.*
