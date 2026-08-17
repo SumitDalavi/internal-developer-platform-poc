@@ -1,5 +1,17 @@
 # Platform Architecture Deep Dive
 
+## System Diagram
+The following Mermaid.js sequence diagram maps the core workflow and interactions:
+
+```mermaid
+sequenceDiagram
+    Dev->>Portal: Request DB
+Portal->>Crossplane: Apply claim
+Crossplane->>AWS: Provision RDS
+AWS-->>Portal: DB Connection String
+```
+
+
 This document explains the core Platform Engineering concepts demonstrated in this repository.
 
 ## 1. Infrastructure as Code (Terraform)
