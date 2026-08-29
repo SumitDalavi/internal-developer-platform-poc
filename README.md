@@ -1,6 +1,7 @@
 # Internal Developer Platform (IDP) PoC 🏗️
 
-> A self-service Internal Developer Platform demonstrating automated provisioning, GitOps delivery, and policy-as-code.
+> **Maturity:** Lab / Reference Implementation
+> _A self-service Internal Developer Platform demonstrating automated provisioning, GitOps delivery, and policy-as-code._
 
 ## The Problem
 
@@ -158,6 +159,48 @@ kind delete cluster --name idp-platform
 **Sumit Dalavi** — Senior DevSecOps / Platform Engineer
 [GitHub](https://github.com/SumitDalavi) | [LinkedIn](https://in.linkedin.com/in/sumit-dalavi-762838129)
 
----
+## 📚 Documentation
 
-*Built with a focus on production-grade patterns, not toy demos.*
+- [Architecture](docs/ARCHITECTURE.md) — System diagram and component details
+- [Runbook](docs/runbook.md) — Setup, commands, and expected outputs
+- [Decisions](docs/decisions.md) — ADRs for Platform Engineering choices
+- [Changelog](docs/changelog.md) — Change history
+
+## Mock Boundaries (Honest Scope)
+
+| What | Status | Details |
+|---|---|---|
+| Kubernetes Cluster | **Real** | Standard `kind` cluster running Argo CD. |
+| Backstage Portal | **Simulated** | E2E script mimics Backstage's Scaffolder by generating templates via bash. |
+| Golden Path CLI | **Real** | Integrated flow simulates calling the Golden Path operator/CLI. |
+
+## 🔗 Related Projects
+
+- [`k8s-golden-path-provisioner`](../k8s-golden-path-provisioner/) — The backend operator that executes the templates managed by this IDP.
+
+## 📖 Overview
+
+This repository demonstrates the convergence of three major Platform Engineering pillars:
+1. **Developer Self-Service Portal** (Backstage)
+2. **GitOps Delivery** (ArgoCD)
+3. **Infrastructure as Code** (Terraform targeting AWS EKS)
+
+It proves the ability to abstract away infrastructure complexity by providing developers with "Golden Paths"—standardized templates that scaffold microservices pre-wired for immediate Kubernetes deployment.
+
+## 🏛️ Repository Architecture
+
+- `/terraform`: AWS EKS cluster provisioning and ArgoCD Helm bootstrapping.
+- `/argocd-gitops`: The GitOps state, utilizing the "App of Apps" pattern to manage cluster workloads declaratively.
+- `/backstage-portal`: Configuration for the Backstage IDP.
+- `/golden-path-templates`: Backstage Software Templates (`template.yaml`). When executed, these templates generate a repository with a Dockerfile, CI/CD, and Kubernetes manifests, then register the new service in the Backstage Software Catalog.
+
+## 🌟 The "Golden Path" Workflow
+
+1. A developer opens the **Backstage Portal**.
+2. They click "Create" and select the **Node.js Microservice** template.
+3. They input a service name (e.g., `payment-service`).
+4. Backstage executes the `fetch:template` and `publish:github` actions:
+   - A new GitHub repo `payment-service` is created.
+   - The skeleton code (Express server, Dockerfile, k8s `Deployment` and `Service`) is pushed.
+   - A `catalog-info.yaml` is added, registering the service in Backstage.
+5. **ArgoCD** detects the new manifests (via the GitOps pattern) and automatically deploys `payment-service` to the EKS cluster.
