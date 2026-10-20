@@ -1,11 +1,13 @@
 > **NOTE:** This repository is an archival lab or partial prototype. It is not actively maintained and should not be used as a reference for production-grade deployments or performance benchmarks.
 
-
 # Internal Developer Platform (IDP) PoC 🏗️
 
-[![Release](https://img.shields.io/github/v/release/SumitDalavi/internal-developer-platform-poc)](https://github.com/SumitDalavi/internal-developer-platform-poc/releases)
+[![CI Pipeline](https://github.com/SumitDalavi/internal-developer-platform-poc/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SumitDalavi/internal-developer-platform-poc/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/SumitDalavi/internal-developer-platform-poc?color=0969da&label=release&logo=github)](https://github.com/SumitDalavi/internal-developer-platform-poc/releases)
 [![Release Workflow](https://github.com/SumitDalavi/internal-developer-platform-poc/actions/workflows/release.yml/badge.svg)](https://github.com/SumitDalavi/internal-developer-platform-poc/actions/workflows/release.yml)
-
+[![Terraform](https://img.shields.io/badge/Terraform-1.6+-844FBA?logo=terraform&logoColor=white)](https://www.terraform.io)
+[![SBOM](https://img.shields.io/badge/SBOM-SPDX%202.3-blueviolet?logo=spdx)](https://github.com/SumitDalavi/internal-developer-platform-poc/releases/tag/v0.2.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 > **Maturity:** Lab / Reference Implementation
 > _A self-service Internal Developer Platform demonstrating automated provisioning, GitOps delivery, and policy-as-code._
@@ -59,7 +61,6 @@ Many teams just use Jenkins pipelines and call it "DevOps." This project demonst
 ├── docs/ARCHITECTURE.md
 └── README.md
 ```
-
 
 ## 📋 Prerequisites
 
