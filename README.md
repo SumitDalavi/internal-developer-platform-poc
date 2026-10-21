@@ -7,8 +7,7 @@
 [![SBOM](https://img.shields.io/badge/SBOM-SPDX%202.3-blueviolet?logo=spdx)](https://github.com/SumitDalavi/internal-developer-platform-poc/releases/tag/v0.2.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-> **Maturity:** Lab / Reference Implementation
-> _A self-service Internal Developer Platform demonstrating automated provisioning, GitOps delivery, and policy-as-code._
+> A self-service Internal Developer Platform demonstrating automated provisioning, GitOps delivery, and policy-as-code.
 
 ## The Problem
 
